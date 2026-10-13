@@ -1,0 +1,10 @@
+{
+  "name": "nocomment",
+  "version": "0.4.0",
+  "description": "Stops Claude from flooding your code with comments. A deterministic hook catches comments that narrate the chat or blow the comment budget right after each edit and makes Claude delete them.",
+  "author": { "name": "No Comment" },
+  "homepage": "https://nocomment.appin60.com/",
+  "repository": "https://github.com/lowkey-studio/nocomment",
+  "license": "MIT",
+  "keywords": ["comments", "code-quality", "hooks"]
+}

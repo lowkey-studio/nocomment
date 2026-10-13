@@ -1,0 +1,11 @@
+{
+  "description": "No Comment: block chat-narrating and excessive comments right after Claude writes them",
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Write", "hooks": [ { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/nocomment.js\" hook pre", "timeout": 10 } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Edit|MultiEdit|Write", "hooks": [ { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/bin/nocomment.js\" hook post", "timeout": 10 } ] }
+    ]
+  }
+}

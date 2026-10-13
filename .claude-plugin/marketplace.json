@@ -1,0 +1,16 @@
+{
+  "name": "nocomment",
+  "description": "No Comment: stop Claude Code from flooding your code with comments",
+  "owner": {
+    "name": "No Comment"
+  },
+  "plugins": [
+    {
+      "name": "nocomment",
+      "source": "./",
+      "description": "Stops Claude from flooding your code with comments: a deterministic PostToolUse hook that makes Claude delete chat-narrating and excessive comments right after each edit.",
+      "category": "productivity",
+      "homepage": "https://nocomment.appin60.com/"
+    }
+  ]
+}

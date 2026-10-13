@@ -1,0 +1,40 @@
+{
+  "name": "nocomment",
+  "version": "0.4.0",
+  "description": "Stop Claude Code (and other AI coding agents) from flooding your code with comments. A deterministic hook plus a stats CLI and a CI check.",
+  "bin": {
+    "nocomment": "bin/nocomment.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "hooks",
+    ".claude-plugin",
+    "README.md",
+    "LICENSE",
+    "dist",
+    "commands"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude",
+    "hooks",
+    "comments",
+    "ai",
+    "codex",
+    "lint",
+    "code-review"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowkey-studio/nocomment.git"
+  },
+  "homepage": "https://nocomment.appin60.com/",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test/run.js"
+  }
+}

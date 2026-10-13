@@ -1,0 +1,25 @@
+name: No Comment
+description: Flag excessive and chat-narrating comments that AI coding agents added in a pull request
+branding: { icon: message-square, color: yellow }
+inputs:
+  mode:
+    description: balanced | strict | chat (overrides .nocomment.json)
+    required: false
+    default: ''
+  fail:
+    description: Fail the check when comments are flagged
+    required: false
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        NOCOMMENT_MODE: ${{ inputs.mode }}
+      run: |
+        BASE="${{ github.event.pull_request.base.sha }}"
+        if [ -z "$BASE" ]; then BASE="HEAD~1"; fi
+        git fetch -q --depth=200 origin "$BASE" 2>/dev/null || true
+        ARGS="--base $BASE"
+        if [ "${{ inputs.fail }}" != "true" ]; then ARGS="$ARGS --warn-only"; fi
+        node "${{ github.action_path }}/bin/nocomment.js" check $ARGS

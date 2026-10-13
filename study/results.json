@@ -1,0 +1,346 @@
+{
+  "generated": "2026-10-06T17:07:37.828Z",
+  "method": "One commit per repo, sampled via GitHub commit search across each day of the window. AI: commits whose message contains \"Co-Authored-By: Claude\", Sep 2026. Baseline: commits from Mar 2021 with no AI co-author. Only added lines in recognised source files; vendored, generated, lock and minified files and files with >1500 additions excluded. Comment detection and narration rules: lib/scan.js.",
+  "ai": {
+    "commits": 400,
+    "linesAdded": 404632,
+    "codeLines": 361928,
+    "commentLines": 22121,
+    "docLines": 20583,
+    "pooledCommentShare": 10.6,
+    "pooledNonDocCommentShare": 5.5,
+    "medianCommitCommentShare": 8.5,
+    "commitsOver25pct": 13.3,
+    "narratingCommentsPer1kLines": 0.4,
+    "narratingComments": 162,
+    "commitsWithNarration": 55,
+    "examples": [
+      {
+        "repo": "EnterpriseBT/portal-ai",
+        "sha": "449ffb8a368f73cb1101fbefcfc4968131a05ee4",
+        "text": "entity — it must appear exactly once (the dedupe risk in the plan)."
+      },
+      {
+        "repo": "Albert-lane-org/SimCity",
+        "sha": "f9cbde4217bce685f59f8ada16ff38d67c2fe41c",
+        "text": "SSO Identity Tower (new — Phase 16)"
+      },
+      {
+        "repo": "Albert-lane-org/SimCity",
+        "sha": "f9cbde4217bce685f59f8ada16ff38d67c2fe41c",
+        "text": "SSO Identity Tower (Phase 16)"
+      },
+      {
+        "repo": "swiknaba/wagglebot",
+        "sha": "853a7cb9e85019eab780aae5c17da64dafd10713",
+        "text": "Phase 2 deployment choices land here. Phase 1 runs no service (D14)."
+      },
+      {
+        "repo": "swiknaba/wagglebot",
+        "sha": "853a7cb9e85019eab780aae5c17da64dafd10713",
+        "text": "Routing advice for the Phase 2 hub. Optional in Phase 1."
+      },
+      {
+        "repo": "ttnhan18062000/rpg-based-simulation",
+        "sha": "86c388f9b0a9bde2f78586ea5f94a3e555d1a7d2",
+        "text": "frontmatter is intentionally NOT fixed as part of this ticket (see plan.md Decision 4) —"
+      },
+      {
+        "repo": "radarlabs/radar-sdk-ios",
+        "sha": "642e87a32d16140a4190b6f8cc2eadf2973409f1",
+        "text": "/ Keeps the hand-written Objective-C initializer working after the implementation moved to Swift."
+      },
+      {
+        "repo": "Ziinc/restdis",
+        "sha": "36f119f73ff9590555b9ab83954c2a689d86e80f",
+        "text": "`auth_mode` defaults to 'gatekeeper' (ELECTRIC_PRD.md Phase 7), which rejects a client-supplied"
+      },
+      {
+        "repo": "wrd1stProgrammer/Stocksembly",
+        "sha": "3e56a7109378272b997d877966ce99a793e1c21b",
+        "text": "Header and hero responsive overrides (moved from responsive.css)."
+      },
+      {
+        "repo": "wrd1stProgrammer/Stocksembly",
+        "sha": "3e56a7109378272b997d877966ce99a793e1c21b",
+        "text": "Search console responsive overrides (moved from responsive.css)."
+      },
+      {
+        "repo": "wrd1stProgrammer/Stocksembly",
+        "sha": "3e56a7109378272b997d877966ce99a793e1c21b",
+        "text": "Search results responsive overrides (moved from responsive.css)."
+      },
+      {
+        "repo": "Juan-CO-dev/co-ops",
+        "sha": "e9e6a6f7c1205c786d784f29fe0e9200a4e5c709",
+        "text": "* outcome today — leads land unassigned until Keith's account exists (Task 4 errand)."
+      },
+      {
+        "repo": "rmstdope/atlantis-hud",
+        "sha": "fd5bfcf61be3ac4eb45f0a396c02be0dd5219ccf",
+        "text": "that moved to a source-dependent column would satisfy `isHideable` while not being drawn"
+      },
+      {
+        "repo": "rmstdope/atlantis-hud",
+        "sha": "fd5bfcf61be3ac4eb45f0a396c02be0dd5219ccf",
+        "text": "The row moved to the Columns tab (ah-20di); it is unchanged apart from where it lives."
+      },
+      {
+        "repo": "rmstdope/atlantis-hud",
+        "sha": "fd5bfcf61be3ac4eb45f0a396c02be0dd5219ccf",
+        "text": "* where the two reset buttons moved to: everything about the table's columns in one place."
+      },
+      {
+        "repo": "bardesss/haelan",
+        "sha": "fdfdddfb2bdc283f1e33f678f827984c9dfeb6ab",
+        "text": "* default rather than needing every person's row updated to include it. A reader of this control"
+      },
+      {
+        "repo": "bardesss/haelan",
+        "sha": "fdfdddfb2bdc283f1e33f678f827984c9dfeb6ab",
+        "text": "* Task 7's wizard step needs the identical checkbox list before a person has a Settings page to"
+      },
+      {
+        "repo": "bardesss/haelan",
+        "sha": "fdfdddfb2bdc283f1e33f678f827984c9dfeb6ab",
+        "text": "* MetricCard now reads useDataTypes() itself (Task 8), the way ControlRow already reads the"
+      },
+      {
+        "repo": "tjdwls101010/Claude-Researcher",
+        "sha": "7612acbedfce6b9f0b194cbb873df87b7fd49eec",
+        "text": "New-style id: YYMM.NNNNN (4 or 5 digits since 2015). Legacy: archive[.subject]/YYMMNNN."
+      },
+      {
+        "repo": "Lajay06/openinvite",
+        "sha": "43c75c41095b186fa1a46eb7b6eb4f63d0ad46fa",
+        "text": "had no page to render on. The gallery images moved to Our Story's grid"
+      },
+      {
+        "repo": "fand/egui-reactor",
+        "sha": "2ea889872b924b4177d01f49006662f3eeb53b89",
+        "text": "! Runner for react-egui apps: wraps eframe for native / wasm / mobile (phase 5)."
+      },
+      {
+        "repo": "fand/egui-reactor",
+        "sha": "2ea889872b924b4177d01f49006662f3eeb53b89",
+        "text": "! egui widget / container wrappers for react-egui (phase 4)."
+      },
+      {
+        "repo": "fand/egui-reactor",
+        "sha": "2ea889872b924b4177d01f49006662f3eeb53b89",
+        "text": "! Not implemented yet (phase 3). `rstml` is already declared as a dependency"
+      },
+      {
+        "repo": "fand/egui-reactor",
+        "sha": "2ea889872b924b4177d01f49006662f3eeb53b89",
+        "text": "! `rsx!` / `#[component]` will replace both copies in phase 3."
+      },
+      {
+        "repo": "steilerDev/cornerstone",
+        "sha": "d13599bd77464f35d27b2c7218eae7ddcf393f91",
+        "text": "Fix (Issue #2046): these classes live in Badge.module.css, not InvoicesPage.module.css —"
+      },
+      {
+        "repo": "ykuwai/ppt-mcp",
+        "sha": "9aefb3211c904daced71f57d42ffef6cea741510",
+        "text": "previously needed a client restart (issue #199)."
+      },
+      {
+        "repo": "devpedroschuster/Iluminus_SaaS",
+        "sha": "a7344e3fcf88aa716ffb7532066f2dd1284fd816",
+        "text": "RULING (achado na revisão da Task 9): a expressão de ternário do"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "Phase 1 of the 3D windowed port (SimplexConstraint3D, 'tr' step rule, 3D edge"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "(3D port, phase 1: round loop + window ladder, ``'tr'`` step rule, 3D edge"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "# non-DY_FIRST packs below — until phase 3 of the 3D port ships the cubic model."
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "'reanchor and polish are not yet supported on 3D fields (3D port, phase 2)'"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "# Phase 1 of the 3D port: the round loop + window ladder only. The coarse warm"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "# Phase 1 of the 3D port: the voxel cap is advisory — the region is"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "# solved whole (the 3D tiler is phase 2). Warned once per call."
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "engine refuses it (phase 2), so gate the injection on the constraint's dim."
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "SimplexConstraint3D via LOCALITY (3D port, phase 1)"
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "3D (SimplexConstraint3D) path of the windowed engine — phase 1 of the 3D port."
+      },
+      {
+        "repo": "UCI-iGravi/dvfopt",
+        "sha": "6511a86b7a373b7f5a18779853a4350b118d6f36",
+        "text": "the cap is advisory in phase 1: the region was solved whole"
+      },
+      {
+        "repo": "rddaniels89/FIRE-FED",
+        "sha": "90ce98eba9ae2343b54d3edcf2196fbbaf2f24e6",
+        "text": "* It was previously written five different ways across six screens and missing"
+      },
+      {
+        "repo": "rddaniels89/FIRE-FED",
+        "sha": "90ce98eba9ae2343b54d3edcf2196fbbaf2f24e6",
+        "text": "Small variant. Previously copy-pasted as `btn-primary py-2 px-4 text-sm`"
+      },
+      {
+        "repo": "rddaniels89/FIRE-FED",
+        "sha": "90ce98eba9ae2343b54d3edcf2196fbbaf2f24e6",
+        "text": "* rest of the app uses. Every chart previously hard-coded slate-500 axes and"
+      },
+      {
+        "repo": "Sujin-Arin-DataWorld/ko_lernen_app",
+        "sha": "b233eccc20539af17e723940455e9dd847bab295",
+        "text": "headword now also counts as ``present_in_app`` when it equals the"
+      },
+      {
+        "repo": "Sujin-Arin-DataWorld/ko_lernen_app",
+        "sha": "b233eccc20539af17e723940455e9dd847bab295",
+        "text": "(``PackStat.n_hm``, renamed from ``n_high``; ``PackStat.n_low`` added"
+      },
+      {
+        "repo": "Sujin-Arin-DataWorld/ko_lernen_app",
+        "sha": "b233eccc20539af17e723940455e9dd847bab295",
+        "text": "R4b item 2a: renamed from n_high -- HIGH+MEDIUM-confidence words"
+      },
+      {
+        "repo": "Sujin-Arin-DataWorld/ko_lernen_app",
+        "sha": "b233eccc20539af17e723940455e9dd847bab295",
+        "text": "name, unchanged from before."
+      },
+      {
+        "repo": "Gryt-chat/client",
+        "sha": "c6886c7ed9abe26d14244d61b693c99c57622ea7",
+        "text": "* True unless the AppImage moved from the path its `gryt://` handler names."
+      },
+      {
+        "repo": "muhtalhakhan/open-agent",
+        "sha": "4bda0c7e0c54bc7b5520e6b98b0e59651661535e",
+        "text": "* Milestone 7 — #75: Static tool marketplace registry (dual output: .ts + .json)"
+      },
+      {
+        "repo": "soumyacodes007/Awaz",
+        "sha": "f729684e792d89021c289b2b051855af10fca933",
+        "text": "Nova or its session-continuation buffer. Keep the original frame"
+      },
+      {
+        "repo": "vpatsenko/monolithic",
+        "sha": "0b7a8165150307111859d6c502187a7d6fbb8391",
+        "text": "/ @notice PHASE 1 of the deploy. The old single-shot `run()` was a deadlock: `setPool`"
+      },
+      {
+        "repo": "vpatsenko/monolithic",
+        "sha": "0b7a8165150307111859d6c502187a7d6fbb8391",
+        "text": "/         phase 2 (`run()`) with MONO_ADDRESS set."
+      },
+      {
+        "repo": "vpatsenko/monolithic",
+        "sha": "0b7a8165150307111859d6c502187a7d6fbb8391",
+        "text": "/ @notice PHASE 2: wire the pool and deploy the auction against an EXISTING Mono."
+      },
+      {
+        "repo": "harnessprotocol/harness-kit",
+        "sha": "b68cc9c06f211d441b3d1eecd5664000a04ffb0a",
+        "text": "Retired route — Fleet itself is retired in Task 1.6; this just"
+      },
+      {
+        "repo": "harnessprotocol/harness-kit",
+        "sha": "b68cc9c06f211d441b3d1eecd5664000a04ffb0a",
+        "text": "Route added in Task 1.4 (AC-10); /security/permissions redirects here."
+      },
+      {
+        "repo": "harnessprotocol/harness-kit",
+        "sha": "b68cc9c06f211d441b3d1eecd5664000a04ffb0a",
+        "text": "Audit Log is retired in favor of the Activity tab (AC-11, Task 1.7),"
+      },
+      {
+        "repo": "harnessprotocol/harness-kit",
+        "sha": "b68cc9c06f211d441b3d1eecd5664000a04ffb0a",
+        "text": "(moved to ./phaseStepper.ts so it can be unit tested without Tauri/React deps)"
+      },
+      {
+        "repo": "harnessprotocol/harness-kit",
+        "sha": "b68cc9c06f211d441b3d1eecd5664000a04ffb0a",
+        "text": "* Settings › Activity (AC-11, Task 1.7). Combines the audit log"
+      },
+      {
+        "repo": "agentistics/agentistics",
+        "sha": "2961f147db50d74a3c966513cc73c08ae62e9274",
+        "text": "this group, per your instruction — the click target is the heading itself."
+      },
+      {
+        "repo": "openforis/arena-core",
+        "sha": "33d3316c21d61b1ce14d2004671eb93f3aa7536e",
+        "text": "Exercised indirectly through arena's core/record/nodeValues.js in the arena repo (Task 9);"
+      },
+      {
+        "repo": "Smarter-Poker/Smarter-Poker-Club-Arena",
+        "sha": "404948b35478e18b81bd8633ebc88d69512b0aa8",
+        "text": "nothing lands - but the outcome now also REPORTS the refusal, because a"
+      },
+      {
+        "repo": "Cognigy/chat-components",
+        "sha": "fbcacefc21607ea109ad7849788a206584385a8f",
+        "text": "Fixed-size flex item: the 24px target never shrinks when the row is"
+      }
+    ]
+  },
+  "baseline": {
+    "commits": 400,
+    "linesAdded": 223216,
+    "codeLines": 205681,
+    "commentLines": 12206,
+    "docLines": 5329,
+    "pooledCommentShare": 7.9,
+    "pooledNonDocCommentShare": 5.5,
+    "medianCommitCommentShare": 4.9,
+    "commitsOver25pct": 9,
+    "narratingCommentsPer1kLines": 0.01,
+    "narratingComments": 2,
+    "commitsWithNarration": 2,
+    "examples": [
+      {
+        "repo": "LeulSewale/Awesome-JavaScript-Projects",
+        "sha": "964c7cde075e39b2bfb5aafa5b93ed752fa1af42",
+        "text": "Fires as soon as the user starts dragging an item - This is where we can define the drag data"
+      },
+      {
+        "repo": "hillstew/paired-fe",
+        "sha": "82384764dc17e2cf05b45ba059745651c638b50e",
+        "text": "test is broken because of MockDate not having been changed when getDaysRemaining was updated"
+      }
+    ]
+  }
+}

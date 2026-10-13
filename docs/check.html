@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How much of this PR is comments? | No Comment</title>
+<meta name="description" content="Paste a public GitHub pull request or commit URL to see what share of the added lines are comments, and which comments narrate the AI chat instead of the code.">
+<style>
+  :root { --bg:#0e0f11; --fg:#e8e6e1; --mute:#9a978f; --acc:#ffcc4d; --card:#17191c; --line:#2a2d31; --red:#ff7a6b; --green:#7fd18b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+  main { max-width:900px; margin:0 auto; padding:48px 22px 80px; }
+  h1 { font-size:38px; line-height:1.15; margin:0 0 10px; }
+  h1 span { color:var(--acc); }
+  a { color:var(--acc); }
+  .row { display:flex; gap:10px; margin:22px 0; }
+  input { flex:1; padding:13px; border-radius:9px; border:1px solid var(--line); background:#0b0c0e; color:var(--fg); font-size:16px; }
+  button { background:var(--acc); color:#111; border:0; font-weight:700; padding:12px 20px; border-radius:9px; font-size:16px; cursor:pointer; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
+  @media (max-width:720px){ .stats { grid-template-columns:repeat(2,1fr); } .row { flex-direction:column; } }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .stat b { display:block; font-size:30px; }
+  .stat span { color:var(--mute); font-size:14px; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; overflow-x:auto; font:13.5px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  .why { color:var(--mute); }
+  .chat { color:var(--red); }
+  .muted { color:var(--mute); font-size:14px; }
+  .cta { background:var(--card); border:1px solid var(--acc); border-radius:12px; padding:18px 20px; margin-top:28px; }
+  #err { color:var(--red); }
+</style>
+</head>
+<body>
+<main>
+  <p class="muted"><a href="./">No Comment</a> / PR checker</p>
+  <h1>How much of this PR is <span>comments</span>?</h1>
+  <p class="muted">Paste a public GitHub pull request or commit URL. Everything runs in your browser against GitHub's public API, which allows 60 requests an hour without login. We only look at added lines.</p>
+  <div class="row">
+    <input id="u" placeholder="https://github.com/owner/repo/pull/123  or  .../commit/abc123">
+    <button id="go">Check</button>
+  </div>
+  <div class="muted">Mode:
+    <label><input type="radio" name="mode" value="balanced" checked style="flex:none"> balanced</label>
+    <label><input type="radio" name="mode" value="strict" style="flex:none"> strict</label>
+    <label><input type="radio" name="mode" value="chat" style="flex:none"> chat narration only</label>
+  </div>
+  <p id="err"></p>
+  <div id="out"></div>
+  <div class="cta" id="cta" style="display:none">
+    <b>Stop it before it reaches the PR.</b> The free No Comment hook makes Claude Code or Codex delete these comments right after writing them:
+    <pre>/plugin marketplace add lowkey-studio/nocomment
+/plugin install nocomment@nocomment</pre>
+    <span class="muted">Want this report posted automatically on every PR, with one-click fixes? That's <a href="./#pro">No Comment Pro</a>: $49 lifetime founding price, waitlist open.</span>
+  </div>
+</main>
+<script src="nocomment-browser.js"></script>
+<script>
+const N = window.NoComment;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+async function gh(path) {
+  const r = await fetch('https://api.github.com' + path, { headers: { Accept: 'application/vnd.github+json' } });
+  if (r.status === 403 || r.status === 429) throw new Error('GitHub rate limit reached (60 requests/hour without login). Try again later.');
+  if (!r.ok) throw new Error('GitHub API ' + r.status + ' for ' + path);
+  return r.json();
+}
+async function filesFor(url) {
+  let m = /github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/.exec(url);
+  if (m) {
+    const all = [];
+    for (let p = 1; p <= 3; p++) {
+      const fs = await gh(`/repos/${m[1]}/${m[2]}/pulls/${m[3]}/files?per_page=100&page=${p}`);
+      all.push(...fs);
+      if (fs.length < 100) break;
+    }
+    return { title: `${m[1]}/${m[2]}#${m[3]}`, files: all };
+  }
+  m = /github\.com\/([^/]+)\/([^/]+)\/commit\/([0-9a-f]{7,40})/.exec(url);
+  if (m) {
+    const c = await gh(`/repos/${m[1]}/${m[2]}/commits/${m[3]}`);
+    return { title: `${m[1]}/${m[2]}@${m[3].slice(0, 7)}`, files: c.files || [] };
+  }
+  throw new Error('That does not look like a GitHub pull request or commit URL.');
+}
+function analyse(files, mode) {
+  const cfg = { ...N.PRESETS[mode], mode };
+  const t = { code: 0, comment: 0, doc: 0, chat: 0, files: 0 };
+  const flagged = [];
+  for (const f of files) {
+    if (!f.patch || !N.langFor(f.filename)) continue;
+    const before = [], after = [], lines = [];
+    let nl = 0;
+    for (const l of f.patch.split('\n')) {
+      const h = /^@@ -\d+(?:,\d+)? \+(\d+)/.exec(l);
+      if (h) { nl = Number(h[1]); before.push(''); after.push(''); lines.push(0); continue; }
+      if (l.startsWith('+')) { after.push(l.slice(1)); lines.push(nl); nl++; }
+      else if (l.startsWith('-')) before.push(l.slice(1));
+      else nl++;
+    }
+    const r = N.addedComments(before.join('\n'), after.join('\n'), f.filename);
+    if (!r) continue;
+    t.files++;
+    t.code += r.addedCode;
+    for (const a of r.added) { if (a.doc) t.doc++; else t.comment++; if (a.chatref) t.chat++; }
+    for (const x of N.evaluate(r, cfg)) flagged.push({ file: f.filename, line: lines[x.idx], text: x.text, why: x.why, chat: x.chatref });
+  }
+  return { t, flagged };
+}
+async function run() {
+  $('err').textContent = ''; $('out').innerHTML = '<p class="muted">Reading the diff…</p>';
+  const url = $('u').value.trim();
+  const mode = document.querySelector('input[name=mode]:checked').value;
+  try {
+    const { title, files } = await filesFor(url);
+    const { t, flagged } = analyse(files, mode);
+    const total = t.code + t.comment + t.doc;
+    const pct = total ? (100 * (t.comment + t.doc) / total).toFixed(1) : '0.0';
+    let html = `<h2>${esc(title)}</h2><div class="stats">
+      <div class="stat"><b>${pct}%</b><span>of added lines are comments</span></div>
+      <div class="stat"><b>${t.comment + t.doc}</b><span>comment lines (${t.doc} doc)</span></div>
+      <div class="stat"><b>${t.code}</b><span>code lines added</span></div>
+      <div class="stat"><b>${t.chat}</b><span>narrate the chat or the edit</span></div></div>`;
+    if (flagged.length) {
+      html += `<p>${flagged.length} comment line(s) No Comment would make the agent delete (mode: ${mode}):</p><pre>` +
+        flagged.slice(0, 200).map((f) => `<span class="${f.chat ? 'chat' : ''}">${esc(f.file)}:${f.line}  ${esc(f.text.slice(0, 110))}</span>  <span class="why">&lt;- ${esc(f.why)}</span>`).join('\n') + '</pre>';
+    } else html += '<p>Clean. Nothing No Comment would flag in this mode.</p>';
+    html += `<p class="muted">Share this result: <a href="?u=${encodeURIComponent(url)}&mode=${mode}">link</a></p>`;
+    $('out').innerHTML = html;
+    $('cta').style.display = 'block';
+  } catch (e) { $('out').innerHTML = ''; $('err').textContent = e.message; }
+}
+$('go').onclick = run;
+$('u').addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });
+const q = new URLSearchParams(location.search);
+if (q.get('mode')) { const r = document.querySelector(`input[name=mode][value=${q.get('mode')}]`); if (r) r.checked = true; }
+if (q.get('u')) { $('u').value = q.get('u'); run(); }
+</script>
+</body>
+</html>

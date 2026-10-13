@@ -1,0 +1,10 @@
+name: No Comment
+on: pull_request
+jobs:
+  nocomment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./
+        with: { mode: balanced, fail: false }
