@@ -83,8 +83,6 @@ npx github:lowkey-studio/nocomment stats
 
 reads your local Claude Code transcripts (`~/.claude/projects`, nothing leaves your machine) and tells you what share of the lines Claude wrote for you were comments, and how many narrate the chat. On the maintainer's machine over 30 days: **20% of 41,414 lines Claude wrote were comments**, 30 of them narrating edits ("MOVED HERE FROM ... unchanged", "no longer carries...").
 
-Post your number in [Discussions](https://github.com/lowkey-studio/nocomment/discussions).
-
 ## Configure
 
 Drop a `.nocomment.json` in your repo (or `~/.nocomment.json`):
@@ -132,16 +130,9 @@ jobs:
 
 JS/TS, Python (docstrings count as doc comments), Go, Rust, Java, Kotlin, C/C++, C#, Swift, PHP, Ruby, shell, SQL, Lua, YAML/TOML, Terraform, CSS/SCSS, HTML/XML, Haskell, Elixir, Solidity and more. Unknown file types are ignored.
 
-## No Comment Pro (for teams), coming soon
+## Teams
 
-The hook stays free and MIT. Pro is for teams reviewing AI-written PRs:
-
-- **PR bot**: one summary comment per PR ("31% of this diff is comments, 6 narrate the chat") plus inline suggestions you can apply in one click
-- **Org-wide policy** shared by every repo and every dev's agent
-- **Cursor, Gemini CLI and Copilot agent** support from the same rules (Claude Code and Codex are already in the free hook)
-- **Auto-strip**: removes the flagged comments for you before commit
-
-**Founding price: $49 lifetime for your whole team** (normally $9/dev/month). [Join the waitlist](https://nocomment.appin60.com/#pro).
+Free, including team use. There is no paid tier. Use `init` for a shared repo setup and the GitHub Action above for pull requests.
 
 ## Why a hook works when CLAUDE.md doesn't
 

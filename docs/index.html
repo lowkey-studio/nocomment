@@ -42,9 +42,9 @@
   <p class="lead">You've told it in CLAUDE.md, in memory and in the chat, and it still writes <code>// Now uses X as you requested</code>. No Comment is a hook, so the model can't skip it. It reads every edit Claude makes and hands back the exact comment lines to delete, and Claude deletes them in the same turn.</p>
   <a class="btn" href="https://github.com/lowkey-studio/nocomment">Get it free on GitHub</a>
   <a class="btn ghost" href="check.html">Check a PR (no install)</a>
-  <a class="btn ghost" href="#pro">No Comment Pro for teams</a>
+  <a class="btn ghost" href="#teams">For teams and CI</a>
 
-  <h2>Install in 10 seconds</h2>
+  <h2>Install</h2>
   <pre>/plugin marketplace add lowkey-studio/nocomment
 /plugin install nocomment@nocomment</pre>
   <p class="small">Or as a plain hook: <code>npx github:lowkey-studio/nocomment install</code>. <b>Codex:</b> <code>npx github:lowkey-studio/nocomment install --codex</code>. <b>Whole team:</b> <code>npx github:lowkey-studio/nocomment init</code> and commit the files. Node 18+, zero dependencies, MIT.</p>
@@ -91,7 +91,7 @@ export function add(a, b) {
 
   <h2>How bad is yours?</h2>
   <pre>npx github:lowkey-studio/nocomment stats</pre>
-  <p>Reads your local Claude Code transcripts (nothing leaves your machine) and prints the share of lines Claude wrote that are comments. Ours: <b>20% of 41,414 lines over 30 days.</b> <a href="https://github.com/lowkey-studio/nocomment/discussions">Post yours.</a></p>
+  <p>Reads your local Claude Code transcripts (nothing leaves your machine) and prints the share of lines Claude wrote that are comments. Ours: <b>20% of 41,414 lines over 30 days.</b></p>
 
   <h2>We measured it: 400 commits co-authored by Claude vs 400 from 2021</h2>
   <p><b>13.8%</b> of Claude-co-authored commits add comments that narrate the chat or the plan ("previously…", "moved to…", "Task 7", "the user asked…"). In 2021 code it was <b>0.5%</b>. The median comment share per commit is 8.5% vs 4.9%. <a href="study.html">Full study, method and raw data</a>.</p>
@@ -104,28 +104,13 @@ export function add(a, b) {
   <blockquote>"I tracked LOC and comments per PR and roughly 17% diff is just comments before I ask to condense it during review."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
   <blockquote>"I created a custom clean-comments command that I need to run after finishing every new feature."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
 
-  <h2 id="pro">No Comment Pro, for teams reviewing AI-written PRs</h2>
-  <p>The hook stays free. Pro covers the review side, where your team pays for the extra comments in reviewer time:</p>
+  <h2 id="teams">For teams and CI, also free</h2>
+  <p>Everything here is free, including team use. There is no paid tier.</p>
   <ul>
-    <li><b>PR bot:</b> one summary per PR ("31% of this diff is comments, 6 narrate the chat") plus inline suggestions you apply in one click</li>
-    <li><b>Org-wide policy</b> shared by every repo and every developer's agent</li>
-    <li><b>Cursor, Gemini CLI and Copilot agent</b> support from the same rules (Claude Code and Codex are in the free hook)</li>
-    <li><b>Auto-strip</b> of flagged comments before commit</li>
+    <li><b>Whole repo:</b> run <code>npx github:lowkey-studio/nocomment init</code> and commit the three files it writes, so every developer's agent uses the same rules.</li>
+    <li><b>Pull requests:</b> add the GitHub Action and it leaves inline warnings on the PR diff. <a href="https://github.com/lowkey-studio/nocomment#in-ci--pre-commit-check">Setup</a></li>
+    <li><b>Pre-commit:</b> <code>npx github:lowkey-studio/nocomment check --staged</code> exits 1 when it finds comments to remove.</li>
   </ul>
-  <div class="card">
-    <div class="price">$49 lifetime <s>$9/dev/month</s></div>
-    <p class="small">Founding price for the first 50 teams: one payment covers your whole team for life. Pro isn't out yet: join the waitlist and you pay nothing until it ships.</p>
-    <p><b>Join the waitlist (free, no card).</b> We email you when Pro ships, and the $49 founding price is held for you.</p>
-    <form action="https://formsubmit.co/nocomment@appin60.com" method="POST">
-      <input type="hidden" name="_subject" value="No Comment Pro waitlist">
-      <input type="hidden" name="_next" value="https://nocomment.appin60.com/thanks.html">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="text" name="_honey" style="display:none">
-      <input type="email" name="email" placeholder="you@company.com" required>
-      <input type="text" name="team_size" placeholder="Team size and which agents you use (optional)">
-      <button type="submit">Hold my $49 founding price</button>
-    </form>
-  </div>
 
   <footer>No Comment is an independent open-source project, not affiliated with Anthropic. MIT licensed.</footer>
 </main>
