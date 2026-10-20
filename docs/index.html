@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-brand="nocomment">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,66 +7,117 @@
 <meta name="description" content="A deterministic Claude Code hook that makes Claude delete chat-narrating and excessive comments right after it writes them. Free and MIT licensed.">
 <meta property="og:title" content="No Comment: stop Claude Code from flooding your code with comments">
 <meta property="og:description" content="CLAUDE.md rules get ignored. A hook doesn't. Free plugin, plus a stats command that shows what % of the code Claude wrote you is comments.">
-<style>
-  :root { --bg:#0e0f11; --fg:#e8e6e1; --mute:#9a978f; --acc:#ffcc4d; --card:#17191c; --line:#2a2d31; --red:#ff7a6b; --green:#7fd18b; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
-  main { max-width:860px; margin:0 auto; padding:56px 22px 80px; }
-  h1 { font-size:44px; line-height:1.1; margin:0 0 14px; letter-spacing:-0.02em; }
-  h1 span { color:var(--acc); }
-  h2 { font-size:26px; margin:56px 0 14px; }
-  p.lead { font-size:20px; color:var(--mute); margin:0 0 28px; }
-  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:14.5px; }
-  pre { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; overflow-x:auto; margin:10px 0; }
-  .cmt { color:var(--red); } .ok { color:var(--green); }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:720px){ .grid { grid-template-columns:1fr; } h1 { font-size:34px; } }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
-  .label { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--mute); margin-bottom:6px; }
-  a { color:var(--acc); }
-  .btn { display:inline-block; background:var(--acc); color:#111; font-weight:700; padding:12px 20px; border-radius:9px; text-decoration:none; margin:6px 8px 6px 0; }
-  .btn.ghost { background:transparent; color:var(--acc); border:1px solid var(--acc); }
-  blockquote { margin:12px 0; padding:10px 16px; border-left:3px solid var(--acc); color:var(--mute); background:var(--card); border-radius:0 8px 8px 0; }
-  blockquote a { font-size:14px; }
-  ul li { margin:6px 0; }
-  .price { font-size:40px; font-weight:800; } .price s { color:var(--mute); font-size:22px; font-weight:400; margin-left:8px; }
-  input[type=email], input[type=text] { width:100%; padding:12px; border-radius:8px; border:1px solid var(--line); background:#0b0c0e; color:var(--fg); font-size:16px; margin:6px 0; }
-  button { background:var(--acc); color:#111; border:0; font-weight:700; padding:12px 20px; border-radius:9px; font-size:16px; cursor:pointer; }
-  .small { font-size:14px; color:var(--mute); }
-  footer { margin-top:70px; color:var(--mute); font-size:14px; border-top:1px solid var(--line); padding-top:18px; }
-</style>
+<meta property="og:url" content="https://nocomment.appin60.com/">
+<script>try{var t=localStorage.getItem('kit-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preload" href="/kit/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/kit/kit.css">
+<link rel="stylesheet" href="/kit/site.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://nocomment.appin60.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F7F6F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<script src="/kit/kit.js" defer></script>
 </head>
 <body>
-<main>
-  <h1>No Comment.<br><span>Make Claude Code stop over-commenting.</span></h1>
-  <p class="lead">You've told it in CLAUDE.md, in memory and in the chat, and it still writes <code>// Now uses X as you requested</code>. No Comment is a hook, so the model can't skip it. It reads every edit Claude makes and hands back the exact comment lines to delete, and Claude deletes them in the same turn.</p>
-  <a class="btn" href="https://github.com/lowkey-studio/nocomment">Get it free on GitHub</a>
-  <a class="btn ghost" href="check.html">Check a PR (no install)</a>
-  <a class="btn ghost" href="#teams">For teams and CI</a>
+<a class="skip" href="#main">Skip to content</a>
 
-  <h2>Install</h2>
-  <pre>/plugin marketplace add lowkey-studio/nocomment
-/plugin install nocomment@nocomment</pre>
-  <p class="small">Or as a plain hook: <code>npx github:lowkey-studio/nocomment install</code>. <b>Codex:</b> <code>npx github:lowkey-studio/nocomment install --codex</code>. <b>Whole team:</b> <code>npx github:lowkey-studio/nocomment init</code> and commit the files. Node 18+, zero dependencies, MIT.</p>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="No Comment home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" style="fill:var(--accent,#826104)"/><g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--on-accent,#FFFFFF)"><path d="M11.2 23l4-14M16.8 23l4-14"/></g></svg>
+      <span>No <b>Comment</b></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="./#install">Install</a>
+      <a href="check.html">PR checker</a>
+      <a href="study.html">Study</a>
+      <a href="./#teams">Teams and CI</a>
+    </nav>
+    <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+      <span class="swap">
+        <svg class="icon i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+        <svg class="icon i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </span>
+    </button>
+  </div>
+</header>
 
-  <h2>Same prompt, with and without</h2>
-  <p class="small">Claude Code, Haiku 4.5, prompt: "make add() validate its inputs, add mean(), <b>explain every step with detailed comments and note what you changed</b>". <a href="https://github.com/lowkey-studio/nocomment/tree/main/docs/demo">Raw files</a></p>
-  <div class="grid">
-    <div class="card"><div class="label">Without: 15 comment lines, 21 code lines</div>
-<pre><span class="cmt">// CHANGED: Added input validation to ensure
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Make Claude Code stop over-commenting.</h1>
+      <p class="lead">You've told it in CLAUDE.md, in memory and in the chat, and it still writes <code>// Now uses X as you requested</code>. No Comment is a hook, so the model can't skip it. It reads every edit Claude makes and hands back the exact comment lines to delete, and Claude deletes them in the same turn.</p>
+      <div class="hero-meta">
+        <span class="free"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free</span>
+        <span>MIT licensed</span>
+        <span>Node 18+, zero dependencies</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="https://github.com/lowkey-studio/nocomment">Get it free on GitHub
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </a>
+        <a class="btn btn-secondary" href="check.html">Check a PR (no install)</a>
+      </div>
+
+      <div class="panel" id="install">
+        <div class="panel-head">
+          <h2>Install</h2>
+          <span class="meta"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>Claude Code plugin or a plain hook</span>
+        </div>
+        <div class="panel-body stack">
+          <div class="code">
+            <div class="code-head"><span>In Claude Code</span>
+              <button class="copy" type="button" data-copy=""><span class="swap"><svg class="icon i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg class="icon i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lbl"><span>Copy</span><span>Copied</span></span></button>
+            </div>
+<pre><code>/plugin marketplace add lowkey-studio/nocomment
+/plugin install nocomment@nocomment</code></pre>
+          </div>
+          <div class="grid-2 installs">
+            <div class="code code-wrap">
+              <div class="code-head"><span>Or as a plain hook</span>
+                <button class="copy" type="button" data-copy=""><span class="swap"><svg class="icon i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg class="icon i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lbl"><span>Copy</span><span>Copied</span></span></button>
+              </div>
+<pre><code><span class="c-prompt">$ </span>npx github:lowkey-studio/nocomment install</code></pre>
+            </div>
+            <div class="code code-wrap">
+              <div class="code-head"><span>Codex</span>
+                <button class="copy" type="button" data-copy=""><span class="swap"><svg class="icon i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg class="icon i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lbl"><span>Copy</span><span>Copied</span></span></button>
+              </div>
+<pre><code><span class="c-prompt">$ </span>npx github:lowkey-studio/nocomment install --codex</code></pre>
+            </div>
+          </div>
+          <p class="form-note">Whole team: <code>npx github:lowkey-studio/nocomment init</code> and commit the files. Node 18+, zero dependencies, MIT.</p>
+        </div>
+
+        <div class="result">
+          <div class="result-head">
+            <div class="verdict">Same prompt, with and without</div>
+            <span class="tag">Real run</span>
+          </div>
+          <p class="form-note">Claude Code, Haiku 4.5, prompt: "make add() validate its inputs, add mean(), <b>explain every step with detailed comments and note what you changed</b>". <a href="https://github.com/lowkey-studio/nocomment/tree/main/docs/demo">Raw files</a></p>
+          <div class="grid-2 demo">
+            <div class="code">
+              <div class="code-head"><span>Without: 15 comment lines, 21 code lines</span></div>
+<pre><code><span class="c-key">// CHANGED: Added input validation to ensure
 // both parameters are finite numbers, and now
 // throws TypeError if validation fails.
 // Previously had no validation.</span>
 export function add(a, b) {
-  <span class="cmt">// Check if 'a' is a finite number using
+  <span class="c-key">// Check if 'a' is a finite number using
   // Number.isFinite()
   // This returns false for Infinity, -Infinity,
   // NaN, and non-numeric values</span>
   if (!Number.isFinite(a)) {
-  ...</pre></div>
-    <div class="card"><div class="label">With No Comment: 2 comment lines, 15 code lines</div>
-<pre>export function add(a: number, b: number) {
-  <span class="ok">// Finite validation required because NaN and
+  ...</code></pre>
+            </div>
+            <div class="code">
+              <div class="code-head"><span>With No Comment: 2 comment lines, 15 code lines</span></div>
+<pre><code>export function add(a: number, b: number) {
+  <span class="c-str">// Finite validation required because NaN and
   // Infinity are technically numbers in JS</span>
   if (!Number.isFinite(a)) {
     throw new TypeError(...);
@@ -75,44 +126,101 @@ export function add(a, b) {
     throw new TypeError(...);
   }
   return a + b;
-}</pre></div>
-  </div>
+}</code></pre>
+            </div>
+          </div>
+          <p class="form-note">Codex too: same prompt, the hook blocked 11 new comment lines and Codex kept 2. <a href="https://github.com/lowkey-studio/nocomment/blob/main/docs/demo/codex-run.log">Log</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <p class="small">Codex too: same prompt, the hook blocked 11 new comment lines and Codex kept 2. <a href="https://github.com/lowkey-studio/nocomment/blob/main/docs/demo/codex-run.log">Log</a></p>
+  <section class="section" id="catches">
+    <div class="wrap">
+      <div class="section-head"><h2>What it catches</h2></div>
+      <div class="ruled">
+        <div><h3>Comments that narrate the chat or the edit</h3><p>"as you requested", "now uses", "changed from", "previously", "no longer", "unchanged", "CHANGED:". That history belongs in the commit message.</p></div>
+        <div><h3>Comments over budget</h3><p>By default no more than 2 new comment lines per edit, or 10% of the new code, whichever is more.</p></div>
+        <div><h3>Walls of comment</h3><p>Blocks longer than 3 lines.</p></div>
+        <div><h3>What it leaves alone</h3><p>Lint directives (<code>eslint-disable</code>, <code># noqa</code>, <code>@ts-expect-error</code>...), normal docstrings and JSDoc, and comments that were already in the file.</p></div>
+      </div>
+      <p class="modes-note">Modes: <code>balanced</code> (default), <code>strict</code> (zero new comments), <code>chat</code> (only narration), <code>off</code>. Set one per repo with a <code>.nocomment.json</code> file. 30+ languages.</p>
+    </div>
+  </section>
 
-  <h2>What it catches</h2>
-  <ul>
-    <li><b>Comments that narrate the chat or the edit:</b> "as you requested", "now uses", "changed from", "previously", "no longer", "unchanged", "CHANGED:". That history belongs in the commit message.</li>
-    <li><b>Comments over budget:</b> by default no more than 2 new comment lines per edit, or 10% of the new code, whichever is more.</li>
-    <li><b>Walls of comment:</b> blocks longer than 3 lines.</li>
-    <li>It leaves alone lint directives (<code>eslint-disable</code>, <code># noqa</code>, <code>@ts-expect-error</code>...), normal docstrings and JSDoc, and comments that were already in the file.</li>
-  </ul>
-  <p>Modes: <code>balanced</code> (default), <code>strict</code> (zero new comments), <code>chat</code> (only narration), <code>off</code>. Set one per repo with a <code>.nocomment.json</code> file. 30+ languages.</p>
+  <section class="section">
+    <div class="wrap split">
+      <div class="section-head"><h2>How bad is yours?</h2></div>
+      <div class="stack">
+        <div class="code code-wrap">
+          <div class="code-head"><span>Comment share of your Claude Code sessions</span>
+            <button class="copy" type="button" data-copy=""><span class="swap"><svg class="icon i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg class="icon i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lbl"><span>Copy</span><span>Copied</span></span></button>
+          </div>
+<pre><code><span class="c-prompt">$ </span>npx github:lowkey-studio/nocomment stats</code></pre>
+        </div>
+        <p class="measure">Reads your local Claude Code transcripts (nothing leaves your machine) and prints the share of lines Claude wrote that are comments. Ours: <b>20% of 41,414 lines over 30 days.</b></p>
+      </div>
+    </div>
+  </section>
 
-  <h2>How bad is yours?</h2>
-  <pre>npx github:lowkey-studio/nocomment stats</pre>
-  <p>Reads your local Claude Code transcripts (nothing leaves your machine) and prints the share of lines Claude wrote that are comments. Ours: <b>20% of 41,414 lines over 30 days.</b></p>
+  <section class="section">
+    <div class="wrap split">
+      <div class="section-head"><h2>We measured it: 400 commits co-authored by Claude vs 400 from 2021</h2></div>
+      <div class="stack">
+        <div class="stats">
+          <div class="stat"><b>13.8%</b><span>of Claude-co-authored commits add comments that narrate the chat or the plan. 2021: 0.5%.</span></div>
+          <div class="stat"><b>8.5%</b><span>median comment share per commit. 2021: 4.9%.</span></div>
+        </div>
+        <p class="measure">Narrating comments say "previously…", "moved to…", "Task 7", "the user asked…". <a href="study.html">Full study, method and raw data</a>.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>We measured it: 400 commits co-authored by Claude vs 400 from 2021</h2>
-  <p><b>13.8%</b> of Claude-co-authored commits add comments that narrate the chat or the plan ("previously…", "moved to…", "Task 7", "the user asked…"). In 2021 code it was <b>0.5%</b>. The median comment share per commit is 8.5% vs 4.9%. <a href="study.html">Full study, method and raw data</a>.</p>
+  <section class="section">
+    <div class="wrap split">
+      <div class="section-head"><h2>Check any PR, no install</h2></div>
+      <div class="stack">
+        <p class="measure">Paste a public GitHub PR or commit URL into the <a href="check.html">PR checker</a> to see its comment share and every line that narrates the chat. It runs in your browser.</p>
+        <p><a class="btn btn-secondary" href="check.html">Open the PR checker
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></p>
+      </div>
+    </div>
+  </section>
 
-  <h2>Check any PR, no install</h2>
-  <p>Paste a public GitHub PR or commit URL into the <a href="check.html">PR checker</a> to see its comment share and every line that narrates the chat. It runs in your browser.</p>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2>You're not the only one</h2></div>
+      <div class="quotes">
+        <blockquote>"Tried many different approaches to getting the comments down (rules, hooks, instructions) but none seem to be effective."<br><a href="https://github.com/anthropics/claude-code/issues/65961">anthropics/claude-code#65961</a> (250+ 👍)</blockquote>
+        <blockquote>"I tracked LOC and comments per PR and roughly 17% diff is just comments before I ask to condense it during review."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
+        <blockquote>"I created a custom clean-comments command that I need to run after finishing every new feature."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
+      </div>
+    </div>
+  </section>
 
-  <h2>You're not the only one</h2>
-  <blockquote>"Tried many different approaches to getting the comments down (rules, hooks, instructions) but none seem to be effective."<br><a href="https://github.com/anthropics/claude-code/issues/65961">anthropics/claude-code#65961</a> (250+ 👍)</blockquote>
-  <blockquote>"I tracked LOC and comments per PR and roughly 17% diff is just comments before I ask to condense it during review."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
-  <blockquote>"I created a custom clean-comments command that I need to run after finishing every new feature."<br><a href="https://github.com/anthropics/claude-code/issues/65961">#65961</a></blockquote>
-
-  <h2 id="teams">For teams and CI, also free</h2>
-  <p>Everything here is free, including team use. There is no paid tier.</p>
-  <ul>
-    <li><b>Whole repo:</b> run <code>npx github:lowkey-studio/nocomment init</code> and commit the three files it writes, so every developer's agent uses the same rules.</li>
-    <li><b>Pull requests:</b> add the GitHub Action and it leaves inline warnings on the PR diff. <a href="https://github.com/lowkey-studio/nocomment#in-ci--pre-commit-check">Setup</a></li>
-    <li><b>Pre-commit:</b> <code>npx github:lowkey-studio/nocomment check --staged</code> exits 1 when it finds comments to remove.</li>
-  </ul>
-
-  <footer>No Comment is an independent open-source project, not affiliated with Anthropic. MIT licensed.</footer>
+  <section class="section" id="teams">
+    <div class="wrap">
+      <div class="section-head"><h2>For teams and CI, also free</h2><p>Everything here is free, including team use. There is no paid tier.</p></div>
+      <div class="ruled">
+        <div><h3>Whole repo</h3><p>Run <code>npx github:lowkey-studio/nocomment init</code> and commit the three files it writes, so every developer's agent uses the same rules.</p></div>
+        <div><h3>Pull requests</h3><p>Add the GitHub Action and it leaves inline warnings on the PR diff. <a href="https://github.com/lowkey-studio/nocomment#in-ci--pre-commit-check">Setup</a></p></div>
+        <div><h3>Pre-commit</h3><p><code>npx github:lowkey-studio/nocomment check --staged</code> exits 1 when it finds comments to remove.</p></div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-brand"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" style="fill:var(--accent,#826104)"/><g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--on-accent,#FFFFFF)"><path d="M11.2 23l4-14M16.8 23l4-14"/></g></svg>No Comment</span>
+      <span>An independent open-source project, not affiliated with Anthropic. MIT licensed.</span>
+      <a href="https://github.com/lowkey-studio/nocomment">Source on GitHub</a>
+    </div>
+    <!-- umbrella:start. Swap this block only, identically on every site. See design-kit/APPLYING.md. -->
+    <p class="umbrella">One of a family of tools from <a href="https://lfglabs.ai">LFG Labs</a></p>
+    <!-- umbrella:end -->
+  </div>
+</footer>
 </body>
 </html>

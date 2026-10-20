@@ -1,57 +1,136 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-brand="nocomment">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How much of this PR is comments? | No Comment</title>
 <meta name="description" content="Paste a public GitHub pull request or commit URL to see what share of the added lines are comments, and which comments narrate the AI chat instead of the code.">
-<style>
-  :root { --bg:#0e0f11; --fg:#e8e6e1; --mute:#9a978f; --acc:#ffcc4d; --card:#17191c; --line:#2a2d31; --red:#ff7a6b; --green:#7fd18b; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
-  main { max-width:900px; margin:0 auto; padding:48px 22px 80px; }
-  h1 { font-size:38px; line-height:1.15; margin:0 0 10px; }
-  h1 span { color:var(--acc); }
-  a { color:var(--acc); }
-  .row { display:flex; gap:10px; margin:22px 0; }
-  input { flex:1; padding:13px; border-radius:9px; border:1px solid var(--line); background:#0b0c0e; color:var(--fg); font-size:16px; }
-  button { background:var(--acc); color:#111; border:0; font-weight:700; padding:12px 20px; border-radius:9px; font-size:16px; cursor:pointer; }
-  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
-  @media (max-width:720px){ .stats { grid-template-columns:repeat(2,1fr); } .row { flex-direction:column; } }
-  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }
-  .stat b { display:block; font-size:30px; }
-  .stat span { color:var(--mute); font-size:14px; }
-  pre { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; overflow-x:auto; font:13.5px/1.5 ui-monospace, Menlo, Consolas, monospace; }
-  .why { color:var(--mute); }
-  .chat { color:var(--red); }
-  .muted { color:var(--mute); font-size:14px; }
-  .cta { background:var(--card); border:1px solid var(--acc); border-radius:12px; padding:18px 20px; margin-top:28px; }
-  #err { color:var(--red); }
-</style>
+<script>try{var t=localStorage.getItem('kit-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preload" href="/kit/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/kit/kit.css">
+<link rel="stylesheet" href="/kit/site.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://nocomment.appin60.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F7F6F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<script src="/kit/kit.js" defer></script>
 </head>
 <body>
-<main>
-  <p class="muted"><a href="./">No Comment</a> / PR checker</p>
-  <h1>How much of this PR is <span>comments</span>?</h1>
-  <p class="muted">Paste a public GitHub pull request or commit URL. Everything runs in your browser against GitHub's public API, which allows 60 requests an hour without login. We only look at added lines.</p>
-  <div class="row">
-    <input id="u" placeholder="https://github.com/owner/repo/pull/123  or  .../commit/abc123">
-    <button id="go">Check</button>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="No Comment home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" style="fill:var(--accent,#826104)"/><g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--on-accent,#FFFFFF)"><path d="M11.2 23l4-14M16.8 23l4-14"/></g></svg>
+      <span>No <b>Comment</b></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="./#install">Install</a>
+      <a href="check.html" aria-current="page">PR checker</a>
+      <a href="study.html">Study</a>
+      <a href="./#teams">Teams and CI</a>
+    </nav>
+    <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+      <span class="swap">
+        <svg class="icon i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+        <svg class="icon i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </span>
+    </button>
   </div>
-  <div class="muted">Mode:
-    <label><input type="radio" name="mode" value="balanced" checked style="flex:none"> balanced</label>
-    <label><input type="radio" name="mode" value="strict" style="flex:none"> strict</label>
-    <label><input type="radio" name="mode" value="chat" style="flex:none"> chat narration only</label>
-  </div>
-  <p id="err"></p>
-  <div id="out"></div>
-  <div class="cta" id="cta" style="display:none">
-    <b>Stop it before it reaches the PR.</b> The free No Comment hook makes Claude Code or Codex delete these comments right after writing them:
-    <pre>/plugin marketplace add lowkey-studio/nocomment
-/plugin install nocomment@nocomment</pre>
-    <span class="muted">Want this check on every pull request? The free <a href="https://github.com/lowkey-studio/nocomment#in-ci--pre-commit-check">GitHub Action</a> leaves inline warnings on the PR diff.</span>
-  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <h1>How much of this PR is comments?</h1>
+      <p class="lead">Paste a public GitHub pull request or commit URL. See the share of added lines that are comments, and every line that narrates the AI chat instead of the code.</p>
+      <div class="hero-meta">
+        <span class="free"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free</span>
+        <span>No install, no login</span>
+        <span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Runs in your browser</span>
+      </div>
+
+      <div class="panel" id="check">
+        <div class="panel-head">
+          <h2>PR checker</h2>
+          <span class="meta"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>GitHub's public API, added lines only</span>
+        </div>
+        <div class="panel-body">
+          <div class="form-row">
+            <div class="field grow">
+              <label class="label" for="u">Pull request or commit URL</label>
+              <input class="input input-mono" id="u" placeholder="https://github.com/owner/repo/pull/123" autocomplete="off" spellcheck="false">
+            </div>
+            <button class="btn" id="go" type="button">Check
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+          <fieldset class="modes">
+            <legend class="label">Mode</legend>
+            <label><input type="radio" name="mode" value="balanced" checked> balanced</label>
+            <label><input type="radio" name="mode" value="strict"> strict</label>
+            <label><input type="radio" name="mode" value="chat"> chat narration only</label>
+          </fieldset>
+          <p class="form-note">A commit URL works too: <span class="mono">.../commit/abc123</span>. GitHub allows 60 requests an hour without login.</p>
+          <p id="err" class="form-note err" aria-live="polite"></p>
+        </div>
+
+        <div class="result" id="out" aria-live="polite">
+          <div class="result-head">
+            <div class="verdict mono">lowkey-studio/nocomment@d785e7f</div>
+            <span class="tag">Example result</span>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>3.8%</b><span>of added lines are comments</span></div>
+            <div class="stat"><b>73</b><span>comment lines (0 doc)</span></div>
+            <div class="stat"><b>1842</b><span>code lines added</span></div>
+            <div class="stat"><b>3</b><span>narrate the chat or the edit</span></div>
+          </div>
+          <p>15 comment line(s) No Comment would make the agent delete (mode: balanced). The first seven:</p>
+<pre class="flagged"><span class="chat">docs/demo/without-nocomment.ts:1  CHANGED: Added input validation to ensure both parameters are finite numbers,</span>  <span class="why">&lt;- narrates the chat or the edit history</span>
+<span class="chat">docs/demo/without-nocomment.ts:2  and now throws TypeError if validation fails. Previously had no validation.</span>  <span class="why">&lt;- narrates the chat or the edit history</span>
+<span class="">docs/demo/without-nocomment.ts:4  Check if 'a' is a finite number using Number.isFinite()</span>  <span class="why">&lt;- over the comment budget (12 new comment lines, budget 2 for 21 new code lines)</span>
+<span class="">docs/demo/without-nocomment.ts:5  This returns false for Infinity, -Infinity, NaN, and non-numeric values</span>  <span class="why">&lt;- over the comment budget (12 new comment lines, budget 2 for 21 new code lines)</span>
+<span class="">docs/demo/without-nocomment.ts:10  Check if 'b' is a finite number using the same validation logic</span>  <span class="why">&lt;- over the comment budget (12 new comment lines, budget 2 for 21 new code lines)</span>
+<span class="">docs/demo/without-nocomment.ts:15  Once both inputs are validated as finite numbers, perform the addition</span>  <span class="why">&lt;- over the comment budget (12 new comment lines, budget 2 for 21 new code lines)</span>
+<span class="chat">docs/demo/without-nocomment.ts:19  NEW: Calculate the arithmetic mean (average) of an array of numbers</span>  <span class="why">&lt;- narrates the chat or the edit history</span></pre>
+          <p class="form-note">This is the commit that added our own demo file, written by Claude Code without the hook. <a href="?u=https%3A%2F%2Fgithub.com%2Flowkey-studio%2Fnocomment%2Fcommit%2Fd785e7fceec4d033b5253d1066141f97680e1b1c&amp;mode=balanced">Run this example live</a>.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-accent cta" id="cta" hidden>
+        <div>
+          <p><strong>Stop it before it reaches the PR.</strong> The free No Comment hook makes Claude Code or Codex delete these comments right after writing them:</p>
+          <div class="code">
+            <div class="code-head"><span>In Claude Code</span>
+              <button class="copy" type="button" data-copy=""><span class="swap"><svg class="icon i-copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg><svg class="icon i-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lbl"><span>Copy</span><span>Copied</span></span></button>
+            </div>
+<pre><code>/plugin marketplace add lowkey-studio/nocomment
+/plugin install nocomment@nocomment</code></pre>
+          </div>
+          <p class="muted">Want this check on every pull request? The free <a href="https://github.com/lowkey-studio/nocomment#in-ci--pre-commit-check">GitHub Action</a> leaves inline warnings on the PR diff.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-brand"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" style="fill:var(--accent,#826104)"/><g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--on-accent,#FFFFFF)"><path d="M11.2 23l4-14M16.8 23l4-14"/></g></svg>No Comment</span>
+      <span>An independent open-source project, not affiliated with Anthropic. MIT licensed.</span>
+      <a href="https://github.com/lowkey-studio/nocomment">Source on GitHub</a>
+    </div>
+    <!-- umbrella:start. Swap this block only, identically on every site. See design-kit/APPLYING.md. -->
+    <p class="umbrella">One of a family of tools from <a href="https://lfglabs.ai">LFG Labs</a></p>
+    <!-- umbrella:end -->
+  </div>
+</footer>
 <script src="nocomment-browser.js"></script>
 <script>
 const N = window.NoComment;
@@ -106,7 +185,8 @@ function analyse(files, mode) {
   return { t, flagged };
 }
 async function run() {
-  $('err').textContent = ''; $('out').innerHTML = '<p class="muted">Reading the diff…</p>';
+  $('err').textContent = ''; $('out').innerHTML = '<p class="loading">Reading the diff…</p>';
+  const go = $('go'); go.setAttribute('aria-busy', 'true');
   const url = $('u').value.trim();
   const mode = document.querySelector('input[name=mode]:checked').value;
   try {
@@ -114,19 +194,21 @@ async function run() {
     const { t, flagged } = analyse(files, mode);
     const total = t.code + t.comment + t.doc;
     const pct = total ? (100 * (t.comment + t.doc) / total).toFixed(1) : '0.0';
-    let html = `<h2>${esc(title)}</h2><div class="stats">
+    let html = `<div class="result-head"><div class="verdict mono">${esc(title)}</div><span class="tag tag-accent">Mode: ${mode}</span></div><div class="stats">
       <div class="stat"><b>${pct}%</b><span>of added lines are comments</span></div>
       <div class="stat"><b>${t.comment + t.doc}</b><span>comment lines (${t.doc} doc)</span></div>
       <div class="stat"><b>${t.code}</b><span>code lines added</span></div>
       <div class="stat"><b>${t.chat}</b><span>narrate the chat or the edit</span></div></div>`;
     if (flagged.length) {
-      html += `<p>${flagged.length} comment line(s) No Comment would make the agent delete (mode: ${mode}):</p><pre>` +
+      html += `<p>${flagged.length} comment line(s) No Comment would make the agent delete (mode: ${mode}):</p><pre class="flagged">` +
         flagged.slice(0, 200).map((f) => `<span class="${f.chat ? 'chat' : ''}">${esc(f.file)}:${f.line}  ${esc(f.text.slice(0, 110))}</span>  <span class="why">&lt;- ${esc(f.why)}</span>`).join('\n') + '</pre>';
-    } else html += '<p>Clean. Nothing No Comment would flag in this mode.</p>';
-    html += `<p class="muted">Share this result: <a href="?u=${encodeURIComponent(url)}&mode=${mode}">link</a></p>`;
+    } else html += '<p><span class="tag tag-ok tag-dot">Clean</span> Nothing No Comment would flag in this mode.</p>';
+    html += `<p class="form-note">Share this result: <a href="?u=${encodeURIComponent(url)}&mode=${mode}">link</a></p>`;
     $('out').innerHTML = html;
-    $('cta').style.display = 'block';
+    $('cta').hidden = false;
+    window.kit && window.kit.refresh();
   } catch (e) { $('out').innerHTML = ''; $('err').textContent = e.message; }
+  finally { go.removeAttribute('aria-busy'); }
 }
 $('go').onclick = run;
 $('u').addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });

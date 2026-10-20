@@ -1,0 +1,19 @@
+/* site.css: No Comment-only rules, loaded after kit.css. Tokens only, never redefine a kit class. */
+.err{color:var(--bad)}
+#err:empty{display:none}
+.modes{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin:16px 0 0;padding:0;border:0}
+.modes legend{float:left;margin-right:4px;padding:0}
+.modes label{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+pre.flagged .chat{color:var(--code-key)}
+pre.flagged .why{color:var(--code-muted)}
+#out>p{margin-block:16px 12px}
+.cta{margin-top:24px}
+.cta .code{margin-block:12px}
+.modes-note{margin-top:24px;max-width:var(--measure)}
+.quotes{display:grid;gap:12px;max-width:var(--measure)}
+.quotes blockquote{margin:0}
+/* study page */
+.prose{max-width:var(--measure)}
+.prose h2{margin-top:48px}
+.prose h2:first-child{margin-top:0}
+.hero .stats{margin-top:32px}
